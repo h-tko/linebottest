@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/line/line-bot-sdk-go/linebot"
 	"net/http"
@@ -27,7 +26,7 @@ func main() {
 		panic(err)
 	}
 
-	http.HandleFunc("/callback", func(w http.RequestWriter, req *http.Request) {
+	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
 		events, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
