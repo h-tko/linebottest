@@ -5,6 +5,7 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 	"net/http"
 	"os"
+	"fmt"
 )
 
 func envLoad() error {
@@ -27,6 +28,8 @@ func main() {
 	}
 
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Println("regist request.")
+
 		events, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
@@ -42,13 +45,25 @@ func main() {
 			if event.Type == linebot.EventTypeMessage {
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
-						panic(err)
+					var send string
+					switch message.Text {
+					case "あ":
+						send = "ありがとう！"
+					case "い":
+						send = "まじかよ"
+					}
+
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(send)).Do(); err != nil {
+						fmt.Printf("%v", err)
 					}
 				}
 			}
 		}
 	})
+
+	http.HandleFunc("/test", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Println("test")
+        })
 
 	if err := http.ListenAndServe(":8081", nil); err != nil {
 		panic(err)
