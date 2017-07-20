@@ -2,10 +2,64 @@
 
 
 [[projects]]
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  revision = "d2709f9f1f31ebcda9651b03077758c1f3a0018c"
+  version = "v3.0.0"
+
+[[projects]]
+  name = "github.com/joho/godotenv"
+  packages = ["."]
+  revision = "726cc8b906e3d31c70a9671c90a13716a8d3f50d"
+  version = "v1.1"
+
+[[projects]]
+  name = "github.com/labstack/echo"
+  packages = [".","middleware"]
+  revision = "935a60782cbbc55110e7bd4b33120e4567cbee43"
+  version = "v3.2.1"
+
+[[projects]]
+  name = "github.com/labstack/gommon"
+  packages = ["bytes","color","log","random"]
+  revision = "779b8a8b9850a97acba6a3fe20feb628c39e17c1"
+  version = "0.2.2"
+
+[[projects]]
   branch = "master"
   name = "github.com/line/line-bot-sdk-go"
   packages = ["linebot"]
   revision = "b25432f2bcee69c27e303c1e18857316911c8c6c"
+
+[[projects]]
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  revision = "941b50ebc6efddf4c41c8e4537a5f68a4e686b24"
+  version = "v0.0.8"
+
+[[projects]]
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  revision = "fc9e8d8ef48496124e79ae0df75490096eccf6fe"
+  version = "v0.0.2"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/valyala/bytebufferpool"
+  packages = ["."]
+  revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/valyala/fasttemplate"
+  packages = ["."]
+  revision = "dcecefd839c4193db0d35b88ec65b4c12d360ab0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["acme","acme/autocert"]
+  revision = "4bc1c249b153ce1da9f55437759cec51fe6acabb"
 
 [[projects]]
   branch = "release-branch.go1.6"
@@ -13,9 +67,15 @@
   packages = ["context","context/ctxhttp"]
   revision = "62685c2d7ca23c807425dca88b11a3e2323dab41"
 
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "7a4fde3fda8ef580a89dbae8138c26041be14299"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "13e0723288d412ca6c7470a350ef6ead725352419209f64d120ffc8135ac0c1b"
+  inputs-digest = "14b8ec880f66926dc20ce730b0d0cd846898369795d8975e54fe562fc67529a8"
   solver-name = "gps-cdcl"
   solver-version = 1

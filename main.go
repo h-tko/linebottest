@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"github.com/line/line-bot-sdk-go/linebot"
-	"net/http"
 	"os"
 	"fmt"
 )
@@ -13,6 +14,12 @@ func envLoad() error {
 }
 
 func main() {
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Pre(middleware.AddTrailingSlash())
+
+	e.Static("/assets", "assets")
 
 	if err := envLoad(); err != nil {
 		panic(err)
@@ -30,18 +37,12 @@ func main() {
 	// userIDを保存しておく場所（お試しなのでメモリで持っとく）
 	var userID string
 
-	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
+	e.POST("/callback/", func(c echo.Context) error {
 		fmt.Println("regist request.")
 
-		events, err := bot.ParseRequest(req)
+		events, err := bot.ParseRequest(c.Request())
 		if err != nil {
-			if err == linebot.ErrInvalidSignature {
-				w.WriteHeader(400)
-			} else {
-				w.WriteHeader(500)
-			}
-
-			return
+			return err
 		}
 
 		for _, event := range events {
@@ -67,22 +68,19 @@ func main() {
 		}
 
 		fmt.Printf("userid: %s\n", userID)
+
+		return nil
 	})
 
 	// pushAPI
-	http.HandleFunc("/push", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("regist push.")
+	e.GET("/push/", func(c echo.Context) error { fmt.Println("regist push.")
 
 		if _, err := bot.PushMessage(userID, linebot.NewTextMessage("push")).Do(); err != nil {
 			fmt.Printf("%v", err)
 		}
+
+		return nil
 	})
 
-	http.HandleFunc("/test", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("test")
-        })
-
-	if err := http.ListenAndServe(":8081", nil); err != nil {
-		panic(err)
-	}
+	e.Logger.Fatal(e.Start(":8081"))
 }
