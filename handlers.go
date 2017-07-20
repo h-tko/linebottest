@@ -17,6 +17,9 @@ func handle(e *echo.Echo) {
 		panic(err)
 	}
 
+	// userIDを保存しておく場所（お試しなのでメモリで持っとく）
+	var userID string
+
 	e.POST("/callback/", func(c echo.Context) error {
 		fmt.Println("regist request.")
 

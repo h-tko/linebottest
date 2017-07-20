@@ -22,9 +22,6 @@ func main() {
 		panic(err)
 	}
 
-	// userIDを保存しておく場所（お試しなのでメモリで持っとく）
-	var userID string
-
 	handle(e)
 
 	e.Logger.Fatal(e.Start(":8081"))
