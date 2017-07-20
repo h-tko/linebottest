@@ -27,6 +27,9 @@ func main() {
 		panic(err)
 	}
 
+	// userIDを保存しておく場所（お試しなのでメモリで持っとく）
+	var userID string
+
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("regist request.")
 
@@ -42,6 +45,9 @@ func main() {
 		}
 
 		for _, event := range events {
+			// userID取り出す
+			userID = event.Source.UserID
+
 			if event.Type == linebot.EventTypeMessage {
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
@@ -58,6 +64,17 @@ func main() {
 					}
 				}
 			}
+		}
+
+		fmt.Printf("userid: %s\n", userID)
+	})
+
+	// pushAPI
+	http.HandleFunc("/push", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Println("regist push.")
+
+		if _, err := bot.PushMessage(userID, linebot.NewTextMessage("push")).Do(); err != nil {
+			fmt.Printf("%v", err)
 		}
 	})
 
