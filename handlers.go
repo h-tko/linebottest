@@ -1,10 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
+	"github.com/line/line-bot-sdk-go/linebot"
+	"os"
 )
 
 func handle(e *echo.Echo) {
+	bot, err := linebot.New(
+		os.Getenv("LINEBOT_SECRET"),
+		os.Getenv("LINEBOT_TOKEN"),
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
 	e.POST("/callback/", func(c echo.Context) error {
 		fmt.Println("regist request.")
 
