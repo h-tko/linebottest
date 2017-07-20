@@ -59,7 +59,16 @@ func handle(e *echo.Echo) {
 	e.GET("/push/", func(c echo.Context) error {
 		fmt.Println("regist push.")
 
-		if _, err := bot.PushMessage(userID, linebot.NewTextMessage("push")).Do(); err != nil {
+		// ユーザー情報の取得
+		res, err := bot.GetProfile(userID).Do()
+		if err != nil {
+			fmt.Printf("%v", err)
+		}
+
+		fmt.Printf("%#v", res)
+
+
+		if _, err = bot.PushMessage(userID, linebot.NewTextMessage("push")).Do(); err != nil {
 			fmt.Printf("%v", err)
 		}
 
